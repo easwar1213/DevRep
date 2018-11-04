@@ -1,8 +1,17 @@
 import React from 'react';
-import { List, Datagrid, TextField, ReferenceField,EditButton,Edit,SimpleForm,DisabledInput,ReferenceInput,SelectInput,TextInput,Create,LongTextInput } from 'react-admin';
+import {Filter, List, Datagrid, TextField, ReferenceField,EditButton,Edit,SimpleForm,DisabledInput,ReferenceInput,SelectInput,TextInput,Create,LongTextInput } from 'react-admin';
+
+const PostFilter = (props) => (
+    <Filter {...props}>
+        <TextInput label="Search" source="q" alwaysOn />
+        <ReferenceInput label="User" source="userId" reference="users" allowEmpty>
+            <SelectInput optionText="name" />
+        </ReferenceInput>
+    </Filter>
+);
 
 export const PostList = props => (
-    <List {...props}>
+<List {...props} filters={<PostFilter />}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <ReferenceField source="userId" reference="users">                
