@@ -1,5 +1,5 @@
 import React from 'react';
-import {Filter, List, Datagrid, TextField, ReferenceField,EditButton,Edit,SimpleForm,DisabledInput,ReferenceInput,SelectInput,TextInput,Create,LongTextInput } from 'react-admin';
+import { Filter, List, Datagrid, TextField, ReferenceField, EditButton, Edit, SimpleForm, DisabledInput, ReferenceInput, SelectInput, TextInput, Create, LongTextInput,Responsive ,SimpleList} from 'react-admin';
 
 const PostFilter = (props) => (
     <Filter {...props}>
@@ -10,29 +10,40 @@ const PostFilter = (props) => (
     </Filter>
 );
 
-export const PostList = props => (
-<List {...props} filters={<PostFilter />}>
-        <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <ReferenceField source="userId" reference="users">                
-                <TextField source="name" />
-            </ReferenceField>            
-            <TextField source="title" />
-            <TextField source="body" />
-            <EditButton />
-        </Datagrid>
+export const PostList = (props) => (
+    <List {...props}>
+        <Responsive
+            small={
+                <SimpleList
+                    primaryText={record => record.title}
+                    secondaryText={record => `${record.views} views`}
+                    tertiaryText={record => new Date(record.published_at).toLocaleDateString()}
+                />
+            }
+            medium={
+                <Datagrid>
+                    <TextField source="id" />
+                    <ReferenceField label="User" source="userId" reference="users">
+                        <TextField source="name" />
+                    </ReferenceField>
+                    <TextField source="title" />
+                    <TextField source="body" />
+                    <EditButton />
+                </Datagrid>
+            }
+        />
     </List>
 );
 
 export const PostEdit = props => (
     <Edit {...props}>
         <SimpleForm>
-          <DisabledInput source="id" />
+            <DisabledInput source="id" />
             <ReferenceInput source="userId" reference="users">
-              <SelectInput optionText="name" />
+                <SelectInput optionText="name" />
             </ReferenceInput>
             <TextInput source="title" />
-          <LongTextInput source="body" />
+            <LongTextInput source="body" />
         </SimpleForm>
     </Edit>
 );
